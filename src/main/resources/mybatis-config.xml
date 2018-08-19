@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- properties属性加载顺序：通过方法参数传递的属性具有最高优先级， resource/url 属性中指定的配置文件次之，最低优先级的是 
+		properties 属性中指定的属性 resource:类路径 url:网络路径 -->
+	<properties resource="properties/jdbc.properties">
+		<property name="jdbc.username" value="root" />
+		<property name="jdbc.password" value="lilinhua911" />
+		<!-- 开启如果属性值为空，则使用指定默认值特性 -->
+		<property
+			name="org.apache.ibatis.parsing.PropertyParser.enable-default-value"
+			value="true" />
+	</properties>
+	<!-- settings配置文件 -->
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="autoMappingUnknownColumnBehavior"
+			value="WARNING" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25" />
+		<setting name="defaultFetchSize" value="100" />
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<!-- 是否开启下划线命名映射为驼峰命名规则，使得数据库自动能自动对应java属性，数据库查询不用再写别名 -->
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+		<setting name="localCacheScope" value="SESSION" />
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<setting name="lazyLoadTriggerMethods"
+			value="equals,clone,hashCode,toString" />
+	</settings>
+
+	<!--别名处理器，为全限定类起别名，但一般推荐写全限定性别名 -->
+	<typeAliases>
+		<!--别名不区分大小写 -->
+		<typeAlias type="org.jiang.mybatis.entity.User" alias="user" />
+		<!-- package:为某个包路径下的java类批量取别名。加了该配置后，也可以在javaBean中添加注解Alias取特定别名 -->
+		<package name="org.jiang.mybatis.entity" />
+	</typeAliases>
+
+	<!-- 类型处理器 -->
+	<typeHandlers>
+
+	</typeHandlers>
+
+	
+	<!-- 环境配置：可以配置多个环境 ，dufault指定某个环境 -->
+	<environments default="mysql">
+		<environment id="mysql">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<!-- 如果jdbc.password不存在，则使用lilinhua911 -->
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="oracle">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${oracle.driver}" />
+				<property name="url" value="${oracle.url}" />
+				<property name="username" value="${oracle.username}" />
+				<property name="password" value="${oracle.password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 支持多数据库厂商：映射器中databaseId使用 -->
+	<databaseIdProvider type="DB_VENDOR">
+		<property name="MySQL" value="mysql" />
+		<property name="SQL Server" value="sqlserver" />
+		<property name="DB2" value="db2" />
+		<property name="Oracle" value="oracle" />
+	</databaseIdProvider>
+	
+	<!-- 将sql映射注册到全局配置中 -->
+	<mappers>
+		<!-- resource:类路径，url:网络路径 ，
+		 class:引用注册接口，
+		 package:可以配置注解类映射器，
+		  注：用class与package方式引入，需要***.xml与***.java类放在同一包路径下
+			1，有sql映射文件，则映射文件需要和xxxMappper类放在同一包路径下 
+			2 ，没有sql映射文件，sql写在注解上 注意：不重要的写注解，重要的写xml -->
+		<mapper resource="mapper/UserMapper.xml" />
+<!-- 		<mapper class="org.jiang.mybatis.mapper.UserMapperAnnotation"/> -->
+<!-- 		<mapper class="org.jiang.mybatis.mapper.UserMapper"/> -->
+		<!-- 批量注册,该包下的所有注解映射器都会被注册-->
+<!-- 		<package name="org.jiang.mybatis.mapper" /> -->
+	</mappers>
+</configuration>
