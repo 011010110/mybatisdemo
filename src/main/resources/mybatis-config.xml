@@ -16,18 +16,22 @@
 	</properties>
 	<!-- settings配置文件 -->
 	<settings>
+		<!-- 开启缓存 -->
 		<setting name="cacheEnabled" value="true" />
+		<!-- 开启延迟加载 -->
 		<setting name="lazyLoadingEnabled" value="true" />
 		<setting name="multipleResultSetsEnabled" value="true" />
 		<setting name="useColumnLabel" value="true" />
 		<setting name="useGeneratedKeys" value="false" />
 		<setting name="autoMappingBehavior" value="PARTIAL" />
-		<setting name="autoMappingUnknownColumnBehavior"
-			value="WARNING" />
+		<setting name="autoMappingUnknownColumnBehavior" value="WARNING" />
 		<setting name="defaultExecutorType" value="SIMPLE" />
 		<setting name="defaultStatementTimeout" value="25" />
 		<setting name="defaultFetchSize" value="100" />
 		<setting name="safeRowBoundsEnabled" value="false" />
+		<!-- 日志配置 -->
+		<setting name="logImpl" value="SLF4J" />
+		
 		<!-- 是否开启下划线命名映射为驼峰命名规则，使得数据库自动能自动对应java属性，数据库查询不用再写别名 -->
 		<setting name="mapUnderscoreToCamelCase" value="false" />
 		<setting name="localCacheScope" value="SESSION" />
@@ -49,7 +53,7 @@
 
 	</typeHandlers>
 
-	
+
 	<!-- 环境配置：可以配置多个环境 ，dufault指定某个环境 -->
 	<environments default="mysql">
 		<environment id="mysql">
@@ -73,7 +77,7 @@
 			</dataSource>
 		</environment>
 	</environments>
-	
+
 	<!-- 支持多数据库厂商：映射器中databaseId使用 -->
 	<databaseIdProvider type="DB_VENDOR">
 		<property name="MySQL" value="mysql" />
@@ -81,19 +85,15 @@
 		<property name="DB2" value="db2" />
 		<property name="Oracle" value="oracle" />
 	</databaseIdProvider>
-	
+
 	<!-- 将sql映射注册到全局配置中 -->
 	<mappers>
-		<!-- resource:类路径，url:网络路径 ，
-		 class:引用注册接口，
-		 package:可以配置注解类映射器，
-		  注：用class与package方式引入，需要***.xml与***.java类放在同一包路径下
-			1，有sql映射文件，则映射文件需要和xxxMappper类放在同一包路径下 
-			2 ，没有sql映射文件，sql写在注解上 注意：不重要的写注解，重要的写xml -->
-		<mapper resource="mapper/UserMapper.xml" />
-<!-- 		<mapper class="org.jiang.mybatis.mapper.UserMapperAnnotation"/> -->
-<!-- 		<mapper class="org.jiang.mybatis.mapper.UserMapper"/> -->
-		<!-- 批量注册,该包下的所有注解映射器都会被注册-->
-<!-- 		<package name="org.jiang.mybatis.mapper" /> -->
+		<!-- resource:类路径，url:网络路径 ， class:引用注册接口， package:可以配置注解类映射器， 注：用class与package方式引入，需要***.xml与***.java类放在同一包路径下 
+			1，有sql映射文件，则映射文件需要和xxxMappper类放在同一包路径下 2 ，没有sql映射文件，sql写在注解上 注意：不重要的写注解，重要的写xml -->
+<!-- 		<mapper resource="mapper/UserMapper.xml" /> -->
+		<!-- <mapper class="org.jiang.mybatis.mapper.UserMapperAnnotation"/> -->
+		<!-- <mapper class="org.jiang.mybatis.mapper.UserMapper"/> -->
+		<!-- 批量注册,该包下的所有注解映射器都会被注册 -->
+		<package name="org.jiang.mybatis.mapper" />
 	</mappers>
 </configuration>

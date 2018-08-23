@@ -2,21 +2,75 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <!-- 如果要使用接口是编程，则namespace需要写为接口的全限定类名，且配置文件中的sql语句的id要与接口中的方法名称相同 -->
+<!-- 如果要使用接口是编程，则namespace需要写为接口的全限定类名，且配置文件中的sql语句的id要与接口中的方法名称相同 -->
 <mapper namespace="org.jiang.mybatis.mapper.UserMapper">
-  <select id="getUserById" resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
-    select * from test_hibernate_user where id = #{id}
-  </select>
-  <select id="getUserById" resultType="org.jiang.mybatis.entity.User" parameterType="String" databaseId="oracle">
-    select * from test_hibernate_user where id = #{id}
-  </select>
-  <insert id="insertUser"  databaseId="mysql" parameterType="org.jiang.mybatis.entity.User">
-  	insert into test_hibernate_user(id,username,userpwd) values (#{id},#{userName},#{userPwd})
-  </insert>
-  <update id="updateUser" databaseId="mysql" parameterType="org.jiang.mybatis.entity.User">
-  	update test_hibernate_user set username=#{userName},userpwd=#{userPwd} where id=#{id}
-  </update>
-  <delete id="deleteUser" databaseId="mysql" parameterType="String">
-    delete from test_hibernate_user where id=#{id} 
-  </delete>
+	<select id="getUserById"
+		resultType="org.jiang.mybatis.entity.User" 
+		databaseId="mysql">
+		select * from test_hibernate_user where id=#{id,jdbcType=VARCHAR}
+	</select>
+	<!--  -->
+	<select id="getUserById"
+		resultType="org.jiang.mybatis.entity.User" databaseId="oracle">
+		select * from test_hibernate_user where id = #{id}
+	</select>
+	<select id="getUserByMapParam"
+		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
+		select * from test_hibernate_user where id = #{id} and username=#{name}
+	</select>
+	
+	<!-- 
+	mybatis参数处理时，会将参数已param1,param2...命名方式存入paramMap中，也可以用位置的形式#{0},#{1}
+	 -->
+	<select id="getUserByIdName"
+		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
+		select * from test_hibernate_user where id = #{param1} and username=#{param2}
+	</select>
+	
+	<select id="getUserByIdMapParamParamAnno"
+		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
+		select * from test_hibernate_user where id = #{id} and username=#{name}
+	</select>
+	
+	<select id="getUserByIdMapParam"
+		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
+		select * from test_hibernate_user where id = #{id} and username=#{mapParam.name}
+	</select>
+	
+	<select id="getUserByObjectUserMap"
+		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
+		select * from test_hibernate_user where id = #{user.id} and username=#{mapParam.name}
+	</select>
+	
+	<!-- 参数如果为list,数组，则参数名用list,如果为Set，则参数名用collection -->
+	<select id="getUserByListParam"
+		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
+		select * from test_hibernate_user where id = #{list[0].id} and username=#{list[0].name}
+	</select>
+	
+	<!-- ResultMap是Mybatis强大的功能，ResultMap与resultType不能同时使用 -->
+	<resultMap id="userResultMap" type="User">
+		<id property="id" column="id" />
+  		<result property="userName" column="username"/>
+  		<result property="userPwd" column="username"/>
+<!--   		<result property="userPwd" column="userpwd"/> -->
+	</resultMap>
+	<select id="getUserByIdReturnResultMap" resultMap="userResultMap">
+		select * from test_hibernate_user where id = #{id}
+	</select>
+	
+	<insert id="insertUser" databaseId="mysql"
+		parameterType="org.jiang.mybatis.entity.User">
+		insert into test_hibernate_user(id,username,userpwd) values
+		(#{id},#{userName},#{userPwd})
+	</insert>
+	<update id="updateUser" databaseId="mysql"
+		parameterType="org.jiang.mybatis.entity.User">
+		update test_hibernate_user set username=#{userName},userpwd=#{userPwd} where
+		id=#{id}
+	</update>
+	<delete id="deleteUser" databaseId="mysql"
+		parameterType="String">
+		delete from test_hibernate_user where id=#{id}
+	</delete>
 </mapper>

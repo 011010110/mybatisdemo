@@ -5,7 +5,7 @@
   <!-- 如果要使用接口是编程，则namespace需要写为接口的全限定类名，且配置文件中的sql语句的id要与接口中的方法名称相同 -->
 <mapper namespace="org.jiang.mybatis.mapper.UserMapper">
   <select id="getUserById" resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
-    select * from test_hibernate_user where id = #{id}
+    select * from test_hibernate_user where  username=#{username}
   </select>
   <select id="getUserById" resultType="org.jiang.mybatis.entity.User" parameterType="String" databaseId="oracle">
     select * from test_hibernate_user where id = #{id}
