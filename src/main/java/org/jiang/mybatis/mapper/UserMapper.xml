@@ -4,6 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 如果要使用接口是编程，则namespace需要写为接口的全限定类名，且配置文件中的sql语句的id要与接口中的方法名称相同 -->
 <mapper namespace="org.jiang.mybatis.mapper.UserMapper">
+<!-- 配置mybatis原生缓存 -->
+<!-- <cache eviction="FIFO" readOnly="false" flushInterval="60000" size="1024" ></cache> -->
+<!-- 使用第三方缓存ehcache -->
+<cache type="org.mybatis.caches.ehcache.EhcacheCache">
+    <property name="timeToIdleSeconds" value="3600"/>
+    <property name="timeToLiveSeconds" value="3600"/>
+    <property name="maxEntriesLocalHeap" value="1000"/>
+    <property name="maxEntriesLocalDisk" value="10000000"/>
+    <property name="memoryStoreEvictionPolicy" value="LRU"/>
+ </cache>
 	<select id="getUserById"
 		resultType="org.jiang.mybatis.entity.User" 
 		databaseId="mysql">
@@ -49,11 +59,12 @@
 	</select>
 	
 	<!-- ResultMap是Mybatis强大的功能，ResultMap与resultType不能同时使用 -->
-	<resultMap id="userResultMap" type="User">
+	<resultMap id="userResultMap" type="User" autoMapping="true">
 		<id property="id" column="id" />
   		<result property="userName" column="username"/>
   		<result property="userPwd" column="username"/>
 <!--   		<result property="userPwd" column="userpwd"/> -->
+		<association property="" ></association>
 	</resultMap>
 	<select id="getUserByIdReturnResultMap" resultMap="userResultMap">
 		select * from test_hibernate_user where id = #{id}

@@ -13,11 +13,11 @@ public interface UserMapper {
 	
 	User getUserByIdName(String id,String name);
 	
+	User getUserByMapParam(Map<String,Object> mapParam);
+	
 	User getUserByIdMapParamParamAnno(@Param("id")String id,@Param("name")String name);
 	
 	User getUserByIdMapParam(@Param("id")String id,@Param("mapParam")Map<String,Object> mapParam);
-	
-	User getUserByMapParam(Map<String,Object> mapParam);
 	
 	User getUserByObjectUserMap(@Param("user")User user,@Param("mapParam")Map<String,Object> param);
 	
