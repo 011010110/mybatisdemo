@@ -17,16 +17,16 @@
 	<select id="getUserById"
 		resultType="org.jiang.mybatis.entity.User" 
 		databaseId="mysql">
-		select * from test_hibernate_user where id=#{id,jdbcType=VARCHAR}
+		select * from user where id=#{id,jdbcType=VARCHAR}
 	</select>
 	<!--  -->
 	<select id="getUserById"
 		resultType="org.jiang.mybatis.entity.User" databaseId="oracle">
-		select * from test_hibernate_user where id = #{id}
+		select * from user where id = #{id}
 	</select>
 	<select id="getUserByMapParam"
 		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
-		select * from test_hibernate_user where id = #{id} and username=#{name}
+		select * from user where id = #{id} and username=#{name}
 	</select>
 	
 	<!-- 
@@ -34,28 +34,28 @@
 	 -->
 	<select id="getUserByIdName"
 		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
-		select * from test_hibernate_user where id = #{param1} and username=#{param2}
+		select * from user where id = #{param1} and username=#{param2}
 	</select>
 	
 	<select id="getUserByIdMapParamParamAnno"
 		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
-		select * from test_hibernate_user where id = #{id} and username=#{name}
+		select * from user where id = #{id} and username=#{name}
 	</select>
 	
 	<select id="getUserByIdMapParam"
 		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
-		select * from test_hibernate_user where id = #{id} and username=#{mapParam.name}
+		select * from user where id = #{id} and username=#{mapParam.name}
 	</select>
 	
 	<select id="getUserByObjectUserMap"
 		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
-		select * from test_hibernate_user where id = #{user.id} and username=#{mapParam.name}
+		select * from user where id = #{user.id} and username=#{mapParam.name}
 	</select>
 	
 	<!-- 参数如果为list,数组，则参数名用list,如果为Set，则参数名用collection -->
 	<select id="getUserByListParam"
 		resultType="org.jiang.mybatis.entity.User" databaseId="mysql">
-		select * from test_hibernate_user where id = #{list[0].id} and username=#{list[0].name}
+		select * from user where id = #{list[0].id} and username=#{list[0].name}
 	</select>
 	
 	<!-- ResultMap是Mybatis强大的功能，ResultMap与resultType不能同时使用 -->
@@ -67,21 +67,21 @@
 		<association property="" ></association>
 	</resultMap>
 	<select id="getUserByIdReturnResultMap" resultMap="userResultMap">
-		select * from test_hibernate_user where id = #{id}
+		select * from user where id = #{id}
 	</select>
 	
 	<insert id="insertUser" databaseId="mysql"
 		parameterType="org.jiang.mybatis.entity.User">
-		insert into test_hibernate_user(id,username,userpwd) values
+		insert into user(id,username,userpwd) values
 		(#{id},#{userName},#{userPwd})
 	</insert>
 	<update id="updateUser" databaseId="mysql"
 		parameterType="org.jiang.mybatis.entity.User">
-		update test_hibernate_user set username=#{userName},userpwd=#{userPwd} where
+		update user set username=#{userName},userpwd=#{userPwd} where
 		id=#{id}
 	</update>
 	<delete id="deleteUser" databaseId="mysql"
 		parameterType="String">
-		delete from test_hibernate_user where id=#{id}
+		delete from user where id=#{id}
 	</delete>
 </mapper>
